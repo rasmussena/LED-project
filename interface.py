@@ -7,6 +7,10 @@
 #############################################################################################################################################################
 
 import PySimpleGUI as sg
+import serial
+import time
+
+
 
 # Define the layout of main program
 layout = [
@@ -38,7 +42,7 @@ while True:
     if event == "Exit" or event == sg.WIN_CLOSED:
         break
     elif event == "SUBMIT":
-        p_one = values['phrase1']
+        p_one = values['phrase1'] + '\n'
         p_two = values['phrase2']
         p_three = values['phrase3']
         p_four = values['phrase4']
@@ -50,6 +54,17 @@ while True:
         print('Phrase4: ', p_four)
         print('Phrase5: ', p_five)
         print('Phrase6: ', p_six)
+
+        try:
+            ser = serial.Serial('COM5', 9600)  
+
+            time.sleep(2)
+            ser.write(p_one.encode())
+            print(p_one)
+            time.sleep(1)  
+
+        finally:
+            ser.close()
 
 
 window.close()
